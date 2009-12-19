@@ -65,9 +65,7 @@
 			
 			screens[ScreenIndex.MAIN]         = new MainScreen();
 			screens[ScreenIndex.INTER_CREATE] = new InterTaskCreator();
-			screens[ScreenIndex.INTER_RESULT] = new InterTaskSimulator();
 			screens[ScreenIndex.INTRA_CREATE] = new IntraTaskCreator();
-			screens[ScreenIndex.INTRA_RESULT] = new IntraTaskSimulator();
 			animateChangeScreen(null, ScreenIndex.MAIN);
 		}
 		

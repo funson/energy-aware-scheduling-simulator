@@ -38,11 +38,13 @@
 		 * Adds a task to this TaskSet
 		 * @param	Ci - Computation Time
 		 * @param	Pi - Period of Task
+		 * @return  Ti - Task Index
 		 */
-		public function addTask(Ci : Number, Pi : Number):void {
+		public function addTask(Ci : Number, Pi : Number):uint {
 			var Ti : uint = tasks.length;
 			var new_task : Task = new Task(Ti, Ci, Pi);
 			tasks.push(new_task);
+			return Ti;
 		}
 		
 		/**
@@ -53,8 +55,8 @@
 			tasks.splice(Ti, 1);
 			var i : uint;
 			for (i = Ti; i < tasks.length; i++) {
-				var current_task : Node = Node(tasks[i]);
-				current_task.t--;
+				var current_task : Task = Task(tasks[i]);
+				current_task.t = i;
 			}
 		}
 		
@@ -93,8 +95,13 @@
 		 * @return (Number) length of major period
 		 */
 		public function getMajorPeriod():Number {
-			//TODO implement
-			return 100;
+			if (endTime == -1) {
+				//Find major period and return
+				//TODO implement
+				return 30;
+			} else {
+				return endTime;	
+			}
 		}
 	}
 }
