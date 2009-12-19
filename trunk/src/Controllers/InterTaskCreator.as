@@ -31,10 +31,9 @@
 			widget.add_btn.addEventListener(MouseEvent.CLICK, addItemClicked);
 			
 			//Initialize with default data
-			
-			
-			//Hide dialogue
-			
+			addItem(1, 3);
+			addItem(1, 4);
+			addItem(1, 12);
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -83,11 +82,12 @@
 			items.push(new_item);
 			new_item.erase_task.addEventListener(MouseEvent.CLICK, removeItem);
 			syncList();
-			
-
-			
 		}
 		
+		/**
+		 * Event handler for when a user clicks the "X" button next to a periodic task
+		 * @param	e
+		 */
 		private function removeItem(e:MouseEvent):void {
 			var item : task_item = task_item(SimpleButton(e.target).parent);
 			// Remove item for data structure
@@ -104,12 +104,21 @@
 			syncList();
 		}
 		
+		/**
+		 * Helper function - syncronizes list with data stored locally
+		 */
 		private function syncList():void {
 			for (var i : uint = 0; i < items.length; i++ ) {
 				var temp : task_item = task_item(items[i]);
 				temp.x = 26.4;
 				temp.y = 144.8 + (i*temp.height);
 			}
+			data.setSimulationEndTime();
+			simulation.resetZoom();
+			
+			widget.utilization_txt.text = "U =\n" + Math.round(data.getUtilization() * 100.0) / 100.0;
+			widget.energy1_txt.text = "" + Math.round(100.0 * data.getUtilization() * data.getMajorPeriod())/100.0;
+			widget.energy2_txt.text = "" + Math.round(100.0 * Math.pow(data.getUtilization(), 3) * data.getMajorPeriod())/100.0;
 			
 			simulation.update();
 		}
