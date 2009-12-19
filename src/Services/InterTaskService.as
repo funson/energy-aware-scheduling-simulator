@@ -97,11 +97,42 @@
 		public function getMajorPeriod():Number {
 			if (endTime == -1) {
 				//Find major period and return
-				//TODO implement
-				return 30;
+				var lcm : Number = 1;
+				var i : uint;
+				for (i = 0; i < tasks.length; i++) {
+					var task : Task = Task(tasks[i]);
+					lcm = findLCM(lcm, task.p);
+				}
+				return Math.min(500, lcm);
 			} else {
 				return endTime;	
 			}
+		}
+		
+		/**
+		 * Helper function - Finds the least common multiple of two numbers
+		 * @param	a
+		 * @param	b
+		 * @return
+		 */
+		private function findLCM(a : Number, b : Number):Number {
+			return a * b / findGCD(a, b);
+		}
+		
+		/**
+		 * Helper function - Finds the greatest common divisor of two numbers
+		 * @param	a
+		 * @param	b
+		 * @return
+		 */
+		private function findGCD(a : Number, b : Number):Number {
+			var t : Number;
+			while (b != 0) {
+			   t = b;
+			   b = a % b;
+			   a = t;
+			}
+			return a;
 		}
 	}
 }

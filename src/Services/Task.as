@@ -13,8 +13,8 @@
 		public var p : Number;	//period
 		public var comp : Number; //computation time
 		
-		public var arrival : uint;	//arrival time of this task instance
-		public var deadline : uint;	//deadline time of this task instance
+		public var arrival : Number;	//arrival time of this task instance
+		public var deadline : Number;	//deadline time of this task instance
 		
 		public var startTimes : Array = new Array();	//times this task started while scheduling
 		public var endTimes : Array = new Array();		//times this task stopped while scheduling
@@ -23,10 +23,10 @@
 		
 		
 		//Graph properties (to draw the task on a graph)
-		private const graph_height : Number = 85;
-		private const graph_width : Number = 300;
-		private const graph_x : Number = 258;
-		private const graph_y : Number = 153;
+		private const graph_height : Number = 85.0;
+		private const graph_width : Number = 300.0;
+		private const graph_x : Number = 258.0;
+		private const graph_y : Number = 150.0;
 		
 		//Services
 		private var data : InterTaskService = SystemController.getInstance().interTaskService;
@@ -51,13 +51,12 @@
 			// Draw scheduled computation times
 			var i : uint;
 			for (i = 0; i < endTimes.length; i++) {
-				var start : uint = uint(startTimes[i]);
-				var end : uint = uint(endTimes[i]);
-				graphics.drawRoundRectComplex(graph_x + start * graph_width / data.getMajorPeriod(), 		//x
-											  graph_y + (100 - frequency) * graph_height / 100.0, 			//y
-											  (end - start) * graph_width / data.getMajorPeriod(), 			//width
-											  graph_height * frequency / 100.0,								//height
-											  3, 3, 3, 3);
+				var start : Number = Number(startTimes[i]);
+				var end : Number = Number(endTimes[i]);
+				graphics.drawRect(graph_x + start * graph_width / data.getMajorPeriod(), 		//x
+								  graph_y + (100 - frequency) * graph_height / 100.0, 			//y
+								  (end - start) * graph_width / data.getMajorPeriod(), 			//width
+								  graph_height * frequency / 100.0);								//height
 			}
 		}
 		
@@ -68,9 +67,20 @@
 				case 1:
 					return 0xFF7BD4;
 				case 2: 
-					return 0xFFC600;
-				default:
+					return 0xC6FF00;
+				case 3:
 					return 0x6A93D4;
+				case 4:
+					return 0xCCCCCC;
+				case 5:
+					return 0x222222;
+				case 6:
+					return 0xFF0033;
+				default:
+					var r : uint = (t * 49) % 256;
+					var g : uint = (t * 69) % 256;
+					var b : uint = (t * 11) % 256;
+					return r * 65536 + g * 256 + b;
 			}
 		}
 		
@@ -81,8 +91,10 @@
 			graphics.moveTo(graph_x + arrival * graph_width / data.getMajorPeriod(), graph_y + graph_height + 10);
 			graphics.lineTo(graph_x + arrival * graph_width / data.getMajorPeriod(), graph_y + graph_height - 10);
 			
-			graphics.moveTo(graph_x + deadline * graph_width / data.getMajorPeriod(), graph_y + graph_height + 10);
-			graphics.lineTo(graph_x + deadline * graph_width / data.getMajorPeriod(), graph_y + graph_height - 10);
+			if (deadline <= data.getMajorPeriod()) {
+				graphics.moveTo(graph_x + deadline * graph_width / data.getMajorPeriod(), graph_y + graph_height + 10);
+				graphics.lineTo(graph_x + deadline * graph_width / data.getMajorPeriod(), graph_y + graph_height - 10);
+			}
 		}
 		
 		private function unhighlight(e:MouseEvent):void {
