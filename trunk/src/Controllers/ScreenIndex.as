@@ -7,8 +7,6 @@
 		public static const MAIN:int = 0;
 		public static const INTER_CREATE:int = 1;
 		public static const INTRA_CREATE:int = 2;
-		public static const INTER_RESULT:int = 3;
-		public static const INTRA_RESULT:int = 4;
 	}
 	
 }
