@@ -149,7 +149,7 @@
 					F = Number(freqLevels[i]);
 			}
 			createSchedule(F / 100.0);
-			widget.energy3_txt.text = "" + Math.round(100.0 * Math.pow(F / 100.0, 3) * data.getUtilization() * 100.0 / F * data.getMajorPeriod())/100.0;
+			widget.energy3_txt.text = "" + Math.round(100.0 * Math.pow(F / 100.0, 3) * data.getUtilization() * 100.0 / F * data.getMajorPerioda())/100.0;
 			printGraph(2 * graph_spacingY);
 		}
 			

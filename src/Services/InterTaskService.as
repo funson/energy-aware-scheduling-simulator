@@ -94,6 +94,14 @@
 		 * Returns the length of the major period (the least common multiple of all task periods)
 		 * @return (Number) length of major period
 		 */
+		public function getMajorPerioda():Number {
+			var b : Number = endTime;
+			setSimulationEndTime();
+			var a : Number = getMajorPeriod();
+			setSimulationEndTime(b);
+			return a;
+		}
+
 		public function getMajorPeriod():Number {
 			if (endTime == -1) {
 				//Find major period and return
