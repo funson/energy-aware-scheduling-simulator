@@ -26,7 +26,7 @@
 		private const graph_height : Number = 85.0;
 		private const graph_width : Number = 300.0;
 		private const graph_x : Number = 258.0;
-		private const graph_y : Number = 150.0;
+		private const graph_y : Number = 125.0;
 		
 		//Services
 		private var data : InterTaskService = SystemController.getInstance().interTaskService;

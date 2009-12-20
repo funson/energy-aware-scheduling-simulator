@@ -20,7 +20,7 @@
 		
 		//Services
 		public var interTaskService : InterTaskService;
-		public var intraTaskService : IntraTaskService;
+		//public var intraTaskService : IntraTaskService;
 		
 		//Screens
 		public var screens:Array = new Array();
@@ -61,11 +61,10 @@
 			removeEventListener(Event.ADDED_TO_STAGE, bootstrap);
 			
 			interTaskService = new InterTaskService();
-			intraTaskService = new IntraTaskService();
+			//intraTaskService = new IntraTaskService();
 			
 			screens[ScreenIndex.MAIN]         = new MainScreen();
 			screens[ScreenIndex.INTER_CREATE] = new InterTaskCreator();
-			screens[ScreenIndex.INTRA_CREATE] = new IntraTaskCreator();
 			animateChangeScreen(null, ScreenIndex.MAIN);
 		}
 		
@@ -107,8 +106,8 @@
 				foffset = Math.min(1, Math.max(0, Math.pow(frame_counter, 3) / Math.pow(50, 3)));
 				fnoffset = Math.min(1, Math.pow(Math.min(50, 85 - frame_counter), 3) / Math.pow(50, 3));
 				
-				previous.filters = [new BlurFilter(foffset*800, 0, 2)];
-				currentScreen.filters = [new BlurFilter(fnoffset*800, 0, 2)];
+				previous.filters = [new BlurFilter(foffset*800, 0, 1)];
+				currentScreen.filters = [new BlurFilter(fnoffset*800, 0, 1)];
 				if (reverseAnimate) {
 					previous.x = offset * 1.2 * stage.stageWidth;
 					currentScreen.x = - noffset * 1.2 * stage.stageWidth;

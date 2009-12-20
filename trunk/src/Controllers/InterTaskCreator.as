@@ -111,7 +111,7 @@
 			for (var i : uint = 0; i < items.length; i++ ) {
 				var temp : task_item = task_item(items[i]);
 				temp.x = 26.4;
-				temp.y = 144.8 + (i*temp.height);
+				temp.y = 117.8 + (i*temp.height);
 			}
 			data.setSimulationEndTime();
 			simulation.resetZoom();
