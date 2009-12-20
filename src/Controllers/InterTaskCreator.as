@@ -56,6 +56,9 @@
 			p = parseInt(widget.Pi.text);
 			if (isNaN(c) && isNaN(p)) {
 				//TODO display error
+			} else if (c > p || c < 1 || p < 1) { 
+				//Todo display error
+			} else if (data.getUtilization() + (c/p) > 1) {
 			} else {
 				addItem(c, p);
 			}
