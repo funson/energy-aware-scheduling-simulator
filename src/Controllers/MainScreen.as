@@ -13,13 +13,17 @@
 			
 			//Add Button Connections
 			widget.intertaskDVS_btn.addEventListener(MouseEvent.CLICK, gotoInterCreate);
-			widget.intrataskDVS_btn.addEventListener(MouseEvent.CLICK, gotoIntraCreate);
+			//widget.intrataskDVS_btn.addEventListener(MouseEvent.CLICK, gotoIntraCreate);
 			widget.intertaskDVS_btn.addEventListener(MouseEvent.MOUSE_OVER, highlight);
-			widget.intrataskDVS_btn.addEventListener(MouseEvent.MOUSE_OVER, highlight);
+			//widget.intrataskDVS_btn.addEventListener(MouseEvent.MOUSE_OVER, highlight);
 			widget.intertaskDVS_btn.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
-			widget.intrataskDVS_btn.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
+			//widget.intrataskDVS_btn.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
 			widget.intertaskDVS_btn.alpha = 0.8;
-			widget.intrataskDVS_btn.alpha = 0.8;
+			//widget.intrataskDVS_btn.alpha = 0.8;
+			
+			//hide intratask scheduler
+			widget.intrataskDVS_btn.visible = false;
+			widget.intraTaskDVS_graphic.visible = false;
 			
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -34,7 +38,7 @@
 			SystemController.getInstance().animateChangeScreen(this, ScreenIndex.INTER_CREATE);
 		}
 		private function gotoIntraCreate(e:Event):void {
-			SystemController.getInstance().animateChangeScreen(this, ScreenIndex.INTRA_CREATE);
+			//SystemController.getInstance().animateChangeScreen(this, ScreenIndex.INTRA_CREATE);
 		}
 		
 		private function highlight(e:MouseEvent):void {
@@ -66,6 +70,7 @@
 			widget.interTaskDVS_graphic.alpha = alpha;
 
 			//Intra
+			/*
 			width = widget.intrataskDVS_btn.width / widget.intrataskDVS_btn.scaleX;
 			if (mouseX > widget.intrataskDVS_btn.x)
 				x_dist = Math.max(widget.intrataskDVS_btn.x, mouseX - width / 2);
@@ -79,6 +84,7 @@
 			widget.intrataskDVS_btn.scaleX = 1 + alpha * 0.03;
 			widget.intrataskDVS_btn.scaleY = 1 + alpha * 0.03;
 			widget.intraTaskDVS_graphic.alpha = alpha;
+			*/
 		}
 	}
 }

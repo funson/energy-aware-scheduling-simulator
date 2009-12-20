@@ -4,6 +4,7 @@
 	import flash.events.*;
 	import flash.filters.DropShadowFilter;
 	import flash.text.TextField;
+	import flash.ui.Mouse;
 	import Services.InterTaskService;
 	import Services.Task;
 
@@ -23,14 +24,15 @@
 		private var widget : wInterTaskSimulator;
 		private var scheduled_tasks : Array;
 		private var zoomLevel : Number = 100.0;
+		private var freqLevels : Array = new Array();
+		private var newFreq : freq_item = null;
 		
 		//Graph properties (to draw the task on a graph)
 		private const graph_height : Number = 85.0;
 		private const graph_width : Number = 300.0;
 		private const graph_x : Number = 258.0;
-		private const graph_y : Number = 150.0;
-		
-		private const graph_spacingY : Number = 134.8;
+		private const graph_y : Number = 125.0;
+		private const graph_spacingY : Number = 142.8;
 		
 		//Services
 		private var data : InterTaskService = SystemController.getInstance().interTaskService;
@@ -40,8 +42,64 @@
 		 */
 		public function InterTaskSimulator(w : wInterTaskSimulator) {
 			widget = w;
+			freqLevels.push(100.0);
 			this.filters = [new DropShadowFilter(3, 45, 0x222222, 0.7, 4, 4, 1, 3)];
 			addEventListener(MouseEvent.MOUSE_WHEEL, zoom);
+			widget.addlevel_btn.addEventListener(MouseEvent.CLICK, addFrequency);
+			
+			newFreq = new freq_item();
+			newFreq.erase_task.addEventListener(MouseEvent.CLICK, removeFreq);
+			newFreq.percent_txt.text = "80.0%";
+			newFreq.x = widget.freq_map.x;
+			newFreq.y = widget.freq_map.y + 0.20 * (widget.freq_map.height - 5);
+			widget.addChild(newFreq);
+			freqLevels.push(parseFloat(newFreq.percent_txt.text));
+			newFreq = null;
+		}
+		
+		/**
+		 * Event handler for when use wants to add a quantized frequency level.
+		 * Use moves mouse up and down to set level and clicks to complete the add.
+		 * @param	e
+		 */
+		private function addFrequency(e:MouseEvent):void {
+			if (newFreq != null)
+				return;
+			newFreq = new freq_item();
+			newFreq.x = widget.freq_map.x;
+			newFreq.y = widget.freq_map.y + widget.freq_map.height - 5;
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, moveFreq);
+			stage.addEventListener(MouseEvent.CLICK, setFreq);
+			widget.addChild(newFreq);
+		}
+		
+		private function moveFreq(e:MouseEvent):void {
+			if (newFreq == null)
+				return;
+				
+			//Set location
+			newFreq.y = Math.max(widget.freq_map.y, Math.min(widget.freq_map.y + widget.freq_map.height - 5, mouseY));
+			//Adjust percentage
+			var percent : Number = ((widget.freq_map.height - 5 + widget.freq_map.y) - newFreq.y) / (widget.freq_map.height - 5);
+			newFreq.percent_txt.text = Math.round(percent * 1000.0) / 10.0 + "%";
+		}
+		
+		private function setFreq(e:MouseEvent):void {
+			if (e.target == widget.addlevel_btn)
+				return;
+			stage.removeEventListener(MouseEvent.MOUSE_MOVE, moveFreq);
+			stage.removeEventListener(MouseEvent.CLICK, setFreq);
+			newFreq.erase_task.addEventListener(MouseEvent.CLICK, removeFreq);
+			freqLevels.push(parseFloat(newFreq.percent_txt.text));
+			newFreq = null;
+			update();
+		}
+		
+		private function removeFreq(e:MouseEvent):void {
+			var deleteMe : freq_item = freq_item(SimpleButton(e.target).parent);
+			widget.removeChild(deleteMe);
+			freqLevels.splice(freqLevels.indexOf(parseFloat(deleteMe.percent_txt.text)), 1);
+			update();
 		}
 		
 		/**
@@ -60,6 +118,9 @@
 			update();
 		}
 		
+		/**
+		 * Resets the zoom on the graph.  Call this when the task set changes.
+		 */
 		public function resetZoom():void {
 			zoomLevel = 100.0;
 		}
@@ -80,6 +141,16 @@
 			var U : Number = data.getUtilization();
 			createSchedule(U);
 			printGraph(graph_spacingY);
+			
+			// Create Schedule using the lowest possible CPU value
+			var F : Number = 100.0;
+			for (var i : uint = 0; i < freqLevels.length; i++) {
+				if (F > Number(freqLevels[i]) && U * 100.0 <= Number(freqLevels[i]))
+					F = Number(freqLevels[i]);
+			}
+			createSchedule(F / 100.0);
+			widget.energy3_txt.text = "" + Math.round(100.0 * Math.pow(F / 100.0, 3) * data.getUtilization() * 100.0 / F * data.getMajorPeriod())/100.0;
+			printGraph(2 * graph_spacingY);
 		}
 			
 		/**
