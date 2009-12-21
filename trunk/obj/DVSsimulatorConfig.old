@@ -4,16 +4,16 @@
 <flex-config>
   <compiler>
     <source-path append="true">
-      <path-element>C:\Users\cnelson\Desktop\cpre458\src</path-element>
-      <path-element>C:\Program Files\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>D:\Documents\My Creations\College Projects\CprE 458\src</path-element>
+      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>C:\Users\cnelson\Desktop\cpre458\src\Views\wPreloader.swc</path-element>
-      <path-element>C:\Users\cnelson\Desktop\cpre458\src\Views\wWidgets.swc</path-element>
+      <path-element>D:\Documents\My Creations\College Projects\CprE 458\src\Views\wPreloader.swc</path-element>
+      <path-element>D:\Documents\My Creations\College Projects\CprE 458\src\Views\wWidgets.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\Users\cnelson\Desktop\cpre458\src\Preloader.as</path-element>
+    <path-element>D:\Documents\My Creations\College Projects\CprE 458\src\Preloader.as</path-element>
   </file-specs>
   <default-background-color>#FFFFFF</default-background-color>
   <default-frame-rate>30</default-frame-rate>
