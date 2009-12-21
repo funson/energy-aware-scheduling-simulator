@@ -4,7 +4,7 @@
 	import flash.events.*;
 	import flash.utils.getDefinitionByName;
 	
-	[SWF(backgroundColor="#000000", frameRate="40")]
+	[SWF(backgroundColor="#FFFFFF", frameRate="40")]
 	
 	/** 
 	 * Entry point of application
